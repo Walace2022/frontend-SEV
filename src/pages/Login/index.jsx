@@ -6,10 +6,12 @@ import Cookies from "js-cookie";
 import { loginService } from "../../services/loginService";
 import { Input } from "../../components/Input";
 import { Header } from "../../components/Header";
+import { BodyContainer, ErrorMessage, Form, FormButton } from "./FormStyled";
+import { useState } from "react";
 
 export function Login() {
   const navigate = useNavigate();
-
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -22,31 +24,43 @@ export function Login() {
       Cookies.set("token", response.data.token);
       navigate("/");
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
+      setError(err.response.data.message);
     }
   }
   return (
     <>
       <Header />
 
-      <form onSubmit={handleSubmit(login)}>
-        <Input
-          type="CPF"
-          placeholder="Digite seu cpf."
-          name="CPF"
-          register={register}
-        />
-        {errors.CPF && <p>{errors.CPF.message}</p>}
-        <Input
-          type="password"
-          placeholder="Digite sua senha"
-          name="senha"
-          register={register}
-        />
-        {errors.senha && <p>{errors.senha.message}</p>}
+      <BodyContainer>
+        <Form onSubmit={handleSubmit(login)}>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <div>
+            <label htmlFor="CPF">CPF:</label>
+            <Input
+              type="CPF"
+              placeholder="Digite seu cpf"
+              name="CPF"
+              register={register}
+            />
+            {errors.CPF && <ErrorMessage>{errors.CPF.message}</ErrorMessage>}
+          </div>
+          <div>
+            <label htmlFor="senha">Senha:</label>
+            <Input
+              type="password"
+              placeholder="Digite sua senha"
+              name="senha"
+              register={register}
+            />
+            {errors.senha && (
+              <ErrorMessage>{errors.senha.message}</ErrorMessage>
+            )}
+          </div>
 
-        <button type="submit">Entrar</button>
-      </form>
+          <FormButton type="submit">Entrar</FormButton>
+        </Form>
+      </BodyContainer>
     </>
   );
 }
