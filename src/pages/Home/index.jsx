@@ -1,9 +1,13 @@
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../../components/Header";
+import { FuncionarioContext } from "../../Context/FuncionarioContext";
 
 export function Home() {
   const navigate = useNavigate();
+
+  const { funcionario } = useContext(FuncionarioContext);
 
   useEffect(() => {
     if (!Cookies.get("token")) {
@@ -18,7 +22,8 @@ export function Home() {
 
   return (
     <>
-      <h1>Ola {Cookies.get("token")}</h1>
+      <Header />
+      <h1>Ola {funcionario.nome}</h1>
       <button onClick={deslogar}>Sair</button>
     </>
   );

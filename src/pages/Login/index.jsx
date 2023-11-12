@@ -7,7 +7,9 @@ import { loginService } from "../../services/loginService";
 import { Input } from "../../components/Input";
 import { Header } from "../../components/Header";
 import { BodyContainer, ErrorMessage, Form, FormButton } from "./FormStyled";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FuncionarioContext } from "../../Context/FuncionarioContext";
+import { funcionarioLogado } from "../../services/funcionarioService";
 
 export function Login() {
   const navigate = useNavigate();
@@ -18,13 +20,22 @@ export function Login() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(loginSchema) });
 
+  const { setFuncionario } = useContext(FuncionarioContext);
+
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      navigate("/");
+    }
+  }, []);
+
   async function login(data) {
     try {
       const response = await loginService(data);
       Cookies.set("token", response.data.token);
+      const logado = await funcionarioLogado();
+      setFuncionario(logado.data);
       navigate("/");
     } catch (err) {
-      console.log(err.response.data.message);
       setError(err.response.data.message);
     }
   }
