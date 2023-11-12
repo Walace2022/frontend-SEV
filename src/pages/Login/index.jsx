@@ -33,7 +33,7 @@ export function Login() {
       const response = await loginService(data);
       Cookies.set("token", response.data.token);
       const logado = await funcionarioLogado();
-      setFuncionario(logado.data);
+      setFuncionario(logado.data.nome.split(" "));
       navigate("/");
     } catch (err) {
       setError(err.response.data.message);
