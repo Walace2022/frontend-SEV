@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { loginService } from "../../services/loginService";
 import { Input } from "../../components/Input";
+import { Header } from "../../components/Header";
 
 export function Login() {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ export function Login() {
   }
   return (
     <>
+      <Header />
+
       <form onSubmit={handleSubmit(login)}>
         <Input
           type="CPF"

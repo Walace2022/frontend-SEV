@@ -5,7 +5,7 @@ export const GlobalStyled = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
-    font-family: Newsreader, Arial;
+    font-family:  Arial;
   }
 
   html {
@@ -15,6 +15,6 @@ export const GlobalStyled = createGlobalStyle`
   body {
     max-width: 100vw;
     height: 100vh;
-    background-color: #e6e6e6;
+    background-color: #dbf0ff;
   }
 `;
