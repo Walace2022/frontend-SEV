@@ -7,6 +7,7 @@ import { BodyContainer } from "../../GlobalStyled";
 
 import { TextCardStyled } from "../../components/TextCard/TextCardStyled";
 import { HomeContainer } from "./HomeStyled";
+import { Footer } from "../../components/Footer";
 
 export function Home() {
   const { funcionario } = useContext(FuncionarioContext);
@@ -38,6 +39,8 @@ export function Home() {
           </TextCardStyled>
         </HomeContainer>
       </BodyContainer>
+
+      <Footer />
     </>
   );
 }
