@@ -40,6 +40,8 @@ export function Home() {
           </TextCardStyled>
           <div>
             <Button text="Cadastro" path="/login" />
+            <Button text="Cadastro" path="/login" />
+            <Button text="Cadastro" path="/login" />
           </div>
         </HomeContainer>
       </BodyContainer>
