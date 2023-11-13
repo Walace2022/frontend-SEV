@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <>
       <FooterContainer>
-        <p>Todos os direitos reservados.</p>
+        <p>Alguns direitos reservados.</p>
       </FooterContainer>
     </>
   );

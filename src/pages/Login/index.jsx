@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { FuncionarioContext } from "../../Context/FuncionarioContext";
 import { funcionarioLogado } from "../../services/funcionarioService";
 import { BodyContainer } from "../../GlobalStyled";
+import { Footer } from "../../components/Footer";
 
 export function Login() {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ export function Login() {
           <FormButton type="submit">Entrar</FormButton>
         </Form>
       </BodyContainer>
+      <Footer />
     </>
   );
 }
