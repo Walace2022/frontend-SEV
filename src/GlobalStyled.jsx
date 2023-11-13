@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyled = createGlobalStyle`
   
@@ -18,4 +18,11 @@ export const GlobalStyled = createGlobalStyle`
     height: 100vh;
     background-color: #c3daec;
   }
+`;
+
+export const BodyContainer = styled.main`
+  min-height: 90vh;
+  display: grid;
+  justify-content: center;
+  place-content: center;
 `;

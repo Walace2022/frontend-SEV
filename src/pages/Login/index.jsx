@@ -6,10 +6,11 @@ import Cookies from "js-cookie";
 import { loginService } from "../../services/loginService";
 import { Input } from "../../components/Input";
 import { Header } from "../../components/Header";
-import { BodyContainer, ErrorMessage, Form, FormButton } from "./FormStyled";
+import { ErrorMessage, Form, FormButton } from "./FormStyled";
 import { useContext, useEffect, useState } from "react";
 import { FuncionarioContext } from "../../Context/FuncionarioContext";
 import { funcionarioLogado } from "../../services/funcionarioService";
+import { BodyContainer } from "../../GlobalStyled";
 
 export function Login() {
   const navigate = useNavigate();

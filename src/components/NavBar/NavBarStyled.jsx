@@ -53,4 +53,9 @@ export const NavBarContainer = styled.nav`
       }
     }
   }
+
+  hr {
+    width: 100%;
+    border: 5px solid #c6c6ca;
+  }
 `;

@@ -43,6 +43,7 @@ export default function NavBar() {
             <button onClick={deslogar}>Sair</button>
           </div>
         </div>
+        <hr />
       </NavBarContainer>
     </>
   );

@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const BodyContainer = styled.main`
-  min-height: 90vh;
-  display: grid;
-  justify-content: center;
-  place-content: center;
-`;
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
