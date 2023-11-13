@@ -25,4 +25,7 @@ export const BodyContainer = styled.main`
   display: grid;
   justify-content: center;
   place-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 `;
