@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 export const ButtonStyled = styled(Link)`
   display: block;
-  padding: 2.5rem 2.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  width: 250px;
   border-radius: 4px;
   border: 1px solid #272e5f;
   background: linear-gradient(#e3e3e3, #c6c6ca);

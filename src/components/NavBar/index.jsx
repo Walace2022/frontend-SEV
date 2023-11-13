@@ -32,7 +32,7 @@ export default function NavBar() {
               <Link to="/">Empréstimos</Link>
             </li>
             <li>
-              <Link to="/">Cadastros</Link>
+              <Link to="/Cadastro">Cadastros</Link>
             </li>
             <li>
               <Link to="/">Consultas</Link>

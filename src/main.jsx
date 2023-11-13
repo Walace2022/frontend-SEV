@@ -11,6 +11,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import FuncionarioProvider from "./Context/FuncionarioContext";
+import { Cadastro } from "./pages/Cadastro";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro",
+    element: <Cadastro />,
   },
 ]);
 
