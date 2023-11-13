@@ -8,6 +8,7 @@ import { BodyContainer } from "../../GlobalStyled";
 import { TextCardStyled } from "../../components/TextCard/TextCardStyled";
 import { HomeContainer } from "./HomeStyled";
 import { Footer } from "../../components/Footer";
+import { Button } from "../../components/Button";
 
 export function Home() {
   const { funcionario } = useContext(FuncionarioContext);
@@ -37,6 +38,9 @@ export function Home() {
               superior do SEV.
             </p>
           </TextCardStyled>
+          <div>
+            <Button text="Cadastro" path="/login" />
+          </div>
         </HomeContainer>
       </BodyContainer>
 
