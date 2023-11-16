@@ -39,9 +39,9 @@ export function Home() {
             </p>
           </TextCardStyled>
           <div>
-            <Button text="Cadastro" path="/login" />
-            <Button text="Cadastro" path="/login" />
-            <Button text="Cadastro" path="/login" />
+            <Button text="Cadastro" path="/cadastro" />
+            <Button text="Emprestimo" path="/login" />
+            <Button text="Consulta" path="/login" />
           </div>
         </HomeContainer>
       </BodyContainer>

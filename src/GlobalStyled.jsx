@@ -21,7 +21,7 @@ export const GlobalStyled = createGlobalStyle`
 `;
 
 export const BodyContainer = styled.main`
-  min-height: 90vh;
+  min-height: calc(100vh - 100px);
   display: grid;
   justify-content: center;
   place-content: center;
