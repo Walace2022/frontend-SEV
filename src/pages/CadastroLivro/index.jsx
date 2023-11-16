@@ -14,6 +14,7 @@ import {
   SucessoMessage,
 } from "../Login/FormStyled";
 import { Input } from "../../components/Input";
+import NavBar from "../../components/NavBar";
 
 export function CadastroLivro() {
   const [error, setError] = useState("");
@@ -21,6 +22,7 @@ export function CadastroLivro() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(LivroSchema) });
 
@@ -28,6 +30,7 @@ export function CadastroLivro() {
     try {
       const response = await cadLivroService(data);
       setSucesso(response.data.message);
+      reset();
     } catch (err) {
       setError(err.response.data.message);
     }
@@ -35,6 +38,7 @@ export function CadastroLivro() {
   return (
     <>
       <Header />
+      <NavBar />
 
       <BodyContainer>
         <Form onSubmit={handleSubmit(cadLivro)}>
