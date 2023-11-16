@@ -30,6 +30,13 @@ export const ErrorMessage = styled.p`
   background-color: #ff2c2cb3;
   color: #fcdfdf;
 `;
+export const SucessoMessage = styled.p`
+  margin: 0.3rem 0;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #01fa4cd5;
+  color: #024b10;
+`;
 
 export const FormButton = styled.button`
   padding: 1rem 2rem;

@@ -7,11 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Header } from "../../components/Header";
 import { BodyContainer } from "../../GlobalStyled";
 import { Footer } from "../../components/Footer";
-import { ErrorMessage, Form, FormButton } from "../Login/FormStyled";
+import {
+  ErrorMessage,
+  Form,
+  FormButton,
+  SucessoMessage,
+} from "../Login/FormStyled";
 import { Input } from "../../components/Input";
 
 export function CadastroLivro() {
   const [error, setError] = useState("");
+  const [sucesso, setSucesso] = useState("");
   const {
     register,
     handleSubmit,
@@ -21,11 +27,8 @@ export function CadastroLivro() {
   async function cadLivro(data) {
     try {
       const response = await cadLivroService(data);
-      console.log("oi");
-      console.log(response);
+      setSucesso(response.data.message);
     } catch (err) {
-      console.log("oi erro");
-
       setError(err.response.data.message);
     }
   }
@@ -36,6 +39,7 @@ export function CadastroLivro() {
       <BodyContainer>
         <Form onSubmit={handleSubmit(cadLivro)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
+          {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>
             <label htmlFor="nome">Titulo:</label>
             <Input
