@@ -12,6 +12,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import FuncionarioProvider from "./Context/FuncionarioContext";
 import { Cadastro } from "./pages/Cadastro";
+import { CadastroLivro } from "./pages/CadastroLivro";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/cadastro",
     element: <Cadastro />,
+  },
+  {
+    path: "/cadastro/livro",
+    element: <CadastroLivro />,
   },
 ]);
 

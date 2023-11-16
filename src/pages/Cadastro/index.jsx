@@ -24,7 +24,7 @@ export function Cadastro() {
             </p>
           </TextCardStyled>
           <div>
-            <Button text="Cadastro de Livros" path="/login" />
+            <Button text="Cadastro de Livros" path="/cadastro/livro" />
             <Button text="Cadastro de Funcionarios" path="/login" />
             <Button text="Cadastro de Usuarios" path="/login" />
           </div>
