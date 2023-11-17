@@ -29,7 +29,7 @@ export function Cadastro() {
               text="Cadastro de Funcionarios"
               path="/cadastro/funcionario"
             />
-            <Button text="Cadastro de Usuarios" path="/login" />
+            <Button text="Cadastro de Usuarios" path="/cadastro/usuario" />
           </div>
         </CadastroContainer>
       </BodyContainer>
