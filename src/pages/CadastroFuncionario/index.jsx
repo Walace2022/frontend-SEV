@@ -1,5 +1,3 @@
-import { cadLivroService } from "../../services/livrosService";
-import { LivroSchema } from "../../schemas/LivroSchema";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +12,10 @@ import {
 } from "../Login/FormStyled";
 import { Input } from "../../components/Input";
 import NavBar from "../../components/NavBar";
+import { cadFuncionarioService } from "../../services/funcionarioService";
+import { FuncionarioSchema } from "../../schemas/funcionarioSchema";
 
-export function CadastroLivro() {
+export function CadastroFuncionario() {
   const [error, setError] = useState("");
   const [sucesso, setSucesso] = useState("");
   const {
@@ -23,11 +23,11 @@ export function CadastroLivro() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(LivroSchema) });
+  } = useForm({ resolver: zodResolver(FuncionarioSchema) });
 
-  async function cadLivro(data) {
+  async function cadFuncionario(data) {
     try {
-      const response = await cadLivroService(data);
+      const response = await cadFuncionarioService(data);
       setSucesso(response.data.message);
       reset();
     } catch (err) {
@@ -40,52 +40,52 @@ export function CadastroLivro() {
       <NavBar />
 
       <BodyContainer>
-        <Form onSubmit={handleSubmit(cadLivro)}>
+        <Form onSubmit={handleSubmit(cadFuncionario)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
+          {!error && sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>
-            <label htmlFor="nome">Titulo:</label>
+            <label htmlFor="nome">Nome:</label>
             <Input
               type="text"
-              placeholder="Digite o titulo do livro"
+              placeholder="Digite o nome do funcionario"
               name="nome"
               register={register}
             />
             {errors.nome && <ErrorMessage>{errors.nome.message}</ErrorMessage>}
           </div>
           <div>
-            <label htmlFor="edicao">Edição:</label>
+            <label htmlFor="CPF">CPF:</label>
             <Input
               type="text"
-              placeholder="Digite a edicao do livro"
-              name="edicao"
+              placeholder="Digite o CPF do Funcionario"
+              name="CPF"
               register={register}
             />
-            {errors.edicao && (
-              <ErrorMessage>{errors.edicao.message}</ErrorMessage>
+            {errors.CPF && <ErrorMessage>{errors.CPF.message}</ErrorMessage>}
+          </div>
+          <div>
+            <label htmlFor="senha">Senha:</label>
+            <Input
+              type="password"
+              placeholder="Digite a senha do funcionario"
+              name="senha"
+              register={register}
+            />
+            {errors.senha && (
+              <ErrorMessage>{errors.senha.message}</ErrorMessage>
             )}
           </div>
           <div>
-            <label htmlFor="autor">Autor:</label>
+            <label htmlFor="comfirmSenha">Comfirme a Senha:</label>
             <Input
-              type="text"
-              placeholder="Digite o autor do livro"
-              name="autor"
+              type="password"
+              placeholder="Comfirme a senha do funcionario"
+              name="comfirmSenha"
               register={register}
             />
-            {errors.autor && (
-              <ErrorMessage>{errors.autor.message}</ErrorMessage>
+            {errors.comfirmSenha && (
+              <ErrorMessage>{errors.comfirmSenha.message}</ErrorMessage>
             )}
-          </div>
-          <div>
-            <label htmlFor="ano">Ano:</label>
-            <Input
-              type="number"
-              placeholder="Digite o ano do livro"
-              name="ano"
-              register={register}
-            />
-            {errors.ano && <ErrorMessage>{errors.ano.message}</ErrorMessage>}
           </div>
 
           <FormButton type="submit">Cadastrar</FormButton>

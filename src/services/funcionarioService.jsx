@@ -11,3 +11,13 @@ export function funcionarioLogado() {
   });
   return response;
 }
+
+export function cadFuncionarioService(data) {
+  delete data.comfirmSenha;
+  const response = axios.post(`${baseURL}/funcionario`, data, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}

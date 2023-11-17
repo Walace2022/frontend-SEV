@@ -13,6 +13,7 @@ import { Login } from "./pages/Login";
 import FuncionarioProvider from "./Context/FuncionarioContext";
 import { Cadastro } from "./pages/Cadastro";
 import { CadastroLivro } from "./pages/CadastroLivro";
+import { CadastroFuncionario } from "./pages/CadastroFuncionario";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/cadastro/livro",
     element: <CadastroLivro />,
+  },
+  {
+    path: "/cadastro/funcionario",
+    element: <CadastroFuncionario />,
   },
 ]);
 
