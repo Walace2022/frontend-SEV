@@ -41,7 +41,7 @@ export function Home() {
           <div>
             <Button text="Cadastro" path="/cadastro" />
             <Button text="Emprestimo" path="/login" />
-            <Button text="Consulta" path="/login" />
+            <Button text="Consulta" path="/consulta" />
           </div>
         </HomeContainer>
       </BodyContainer>

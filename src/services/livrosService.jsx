@@ -11,3 +11,12 @@ export function cadLivroService(data) {
   });
   return response;
 }
+
+export function getLivrosService() {
+  const response = axios.get(`${baseURL}/livro`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}
