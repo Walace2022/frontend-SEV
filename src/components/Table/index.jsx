@@ -6,7 +6,7 @@ import "../../primereact-theme/theme.css";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
-export function TableTest() {
+export function Tabelas() {
   const [livros, setLivros] = useState([
     {
       _id: "",
@@ -36,7 +36,6 @@ export function TableTest() {
   async function getLivros() {
     try {
       const res = await getLivrosService();
-      console.log(res.data);
       setLivros(res.data);
     } catch (err) {
       console.log(err);
