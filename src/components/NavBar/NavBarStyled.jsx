@@ -14,6 +14,7 @@ export const NavBarContainer = styled.nav`
       display: flex;
       flex-direction: column;
       align-items: end;
+      margin:0;
 
       h3 {
         font-size: 1rem;

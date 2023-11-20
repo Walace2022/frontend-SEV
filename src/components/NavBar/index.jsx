@@ -35,7 +35,7 @@ export default function NavBar() {
               <Link to="/Cadastro">Cadastros</Link>
             </li>
             <li>
-              <Link to="/">Consultas</Link>
+              <Link to="/consulta">Consultas</Link>
             </li>
           </ul>
           <div>

@@ -20,3 +20,12 @@ export function getLivrosService() {
   });
   return response;
 }
+
+export function deleteLivroService(id) {
+  const response = axios.get(`${baseURL}/livro;${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}
