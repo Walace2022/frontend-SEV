@@ -22,7 +22,7 @@ export function getLivrosService() {
 }
 
 export function deleteLivroService(id) {
-  const response = axios.get(`${baseURL}/livro;${id}`, {
+  const response = axios.delete(`${baseURL}/livro/${id}`, {
     headers: {
       Authorization: `Bearer ${Cookies.get("token")}`,
     },

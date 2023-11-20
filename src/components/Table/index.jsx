@@ -1,7 +1,7 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import React, { useEffect, useRef, useState } from "react";
-import { getLivrosService } from "../../services/livrosService";
+import { deleteLivroService, getLivrosService } from "../../services/livrosService";
 import "../../primereact-theme/theme.css";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
@@ -56,6 +56,17 @@ export function Tabelas() {
     setDeleteLivrosDialog(false);
   };
 
+  const deleteLivros = () =>{
+    try{
+
+      selectedLivros.forEach( async (livro) => await deleteLivroService(livro._id));
+    }catch(err){
+      console.log(err.message);
+    }
+    getLivros();
+    hideDeleteLivrosDialog();
+  }
+
   const deleteProductsDialogFooter = (
     <React.Fragment>
       <Button
@@ -68,7 +79,7 @@ export function Tabelas() {
         label="Sim"
         icon="pi pi-check"
         severity="danger"
-        onClick={hideDeleteLivrosDialog}
+        onClick={deleteLivros}
       />
     </React.Fragment>
   );
@@ -132,6 +143,7 @@ export function Tabelas() {
         tableStyle={{ minWidth: "50rem" }}
         paginator
         rows={5}
+        rowsPerPageOptions={[5,10,25]}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} Livros"
         selectionMode="multiple"
