@@ -24,5 +24,8 @@ export const LivroSchema = z.object({
     .min(1, { message: "O ano não pode ser vazio" })
     .refine((value) => !/^\s*$/.test(value), {
       message: "Não pode ter apenas espaços",
+    })
+    .refine((value) => !(Number(value) > new Date().getFullYear()), {
+      message: "O ano não pode ser maior que o ano atual",
     }),
 });
