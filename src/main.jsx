@@ -16,6 +16,8 @@ import { CadastroLivro } from "./pages/CadastroLivro";
 import { CadastroFuncionario } from "./pages/CadastroFuncionario";
 import { CadastroUsuario } from "./pages/CadastroUsuario";
 import { Consulta } from "./pages/Consulta";
+import { Emprestimo } from "./pages/Emprestimo";
+import {NovoEmprestimo} from "./pages/novoEmprestimo"
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
     path: "/consulta",
     element: <Consulta />,
   },
+  {
+    path:"/emprestimo",
+    element:<Emprestimo />
+  },
+  {
+    path:"/emprestimo/novo",
+    element:<NovoEmprestimo />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

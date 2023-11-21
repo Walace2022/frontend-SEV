@@ -29,7 +29,7 @@ export default function NavBar() {
               <Link to="/">Pagina Inicial</Link>
             </li>
             <li>
-              <Link to="/">Empréstimos</Link>
+              <Link to="/emprestimo">Empréstimos</Link>
             </li>
             <li>
               <Link to="/Cadastro">Cadastros</Link>

@@ -1,10 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  deleteLivroService,
-  getLivrosService,
-} from "../../services/livrosService";
 import "../../primereact-theme/theme.css";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
@@ -13,13 +9,20 @@ import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
+import { Header } from "../../components/Header";
+import NavBar from "../../components/NavBar";
+import { Footer } from "../../components/Footer";
+import { BodyContainer } from "../../GlobalStyled";
+import { deleteEmprestimosService, getEmprestimosService } from "../../services/emprestimoService";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export function Tabelas() {
-  const [livros, setLivros] = useState([{}]);
-  const [selectedLivros, setSelectedLivros] = useState(null);
-  const [deleteLivrosDialog, setDeleteLivrosDialog] = useState(false);
+export function Emprestimo() {
+  const [emprestimos, setEmprestimos] = useState([{}]);
+  const [selectedEmprestimos, setSelectedEmprestimos] = useState(null);
+  const [deleteEmprestimosDialog, setDeleteEmprestimosDialog] = useState(false);
   const dt = useRef(null);
   const toast = useRef(null);
+  const navigate = useNavigate();
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -36,17 +39,17 @@ export function Tabelas() {
     setGlobalFilterValue(value);
   };
 
-  async function getLivros() {
+  async function getEmprestimos() {
     try {
-      const res = await getLivrosService();
-      setLivros(res.data);
+      const res = await getEmprestimosService();
+      setEmprestimos(res.data);
     } catch (err) {
       console.log(err);
     }
   }
 
   useEffect(() => {
-    getLivros();
+    getEmprestimos();
   }, []);
 
   const exportCSV = () => {
@@ -54,31 +57,35 @@ export function Tabelas() {
   };
 
   const confirmDeleteSelected = () => {
-    setDeleteLivrosDialog(true);
+    setDeleteEmprestimosDialog(true);
   };
 
-  const hideDeleteLivrosDialog = () => {
-    setDeleteLivrosDialog(false);
+  const hideDeleteEmprestimosDialog = () => {
+    setDeleteEmprestimosDialog(false);
   };
 
-  const deleteLivros = () => {
+  const deleteEmprestimos = () => {
     try {
-      selectedLivros.forEach(async (livro) => {
-        await deleteLivroService(livro._id);
+      selectedEmprestimos.forEach(async (emprestimo) => {
+        await deleteEmprestimosService(emprestimo._id);
         toast.current.show({
           severity: "success",
           summary: "Sucesso",
-          detail: `${livro.nome} Apagado`,
+          detail: `${emprestimo.test1} Apagado`,
           life: 3000,
         });
       });
     } catch (err) {
       console.log(err.message);
     }
-    setSelectedLivros(null);
-    getLivros();
-    hideDeleteLivrosDialog();
+    setSelectedEmprestimos(null);
+    getEmprestimos();
+    hideDeleteEmprestimosDialog();
   };
+
+const novoEmprestimo = ()=>{
+    navigate("/emprestimo/novo");
+}
 
   const deleteProductsDialogFooter = (
     <React.Fragment>
@@ -86,26 +93,32 @@ export function Tabelas() {
         label="Não"
         icon="pi pi-times"
         outlined
-        onClick={hideDeleteLivrosDialog}
+        onClick={hideDeleteEmprestimosDialog}
       />
       <Button
         label="Sim"
         icon="pi pi-check"
         severity="danger"
-        onClick={deleteLivros}
+        onClick={deleteEmprestimos}
       />
     </React.Fragment>
   );
 
   const leftToolbar = () => {
     return (
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-2">
+        <Button
+          label="New"
+          icon="pi pi-plus"
+          severity="success"
+          onClick={novoEmprestimo}
+        />
         <Button
           label="Deletar"
           icon="pi pi-trash"
           severity="danger"
           onClick={confirmDeleteSelected}
-          disabled={!selectedLivros || !selectedLivros.length}
+          disabled={!selectedEmprestimos || !selectedEmprestimos.length}
         />
       </div>
     );
@@ -139,6 +152,9 @@ export function Tabelas() {
 
   return (
     <>
+    <Header />
+      <NavBar />
+      <BodyContainer>
       <Toast ref={toast} />
       <div className="card">
         <Toolbar
@@ -148,7 +164,7 @@ export function Tabelas() {
         ></Toolbar>
         <DataTable
           ref={dt}
-          value={livros}
+          value={emprestimos}
           dataKey="_id"
           size="large"
           tableStyle={{ minWidth: "50rem" }}
@@ -156,10 +172,10 @@ export function Tabelas() {
           rows={5}
           rowsPerPageOptions={[5, 10, 25]}
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} Livros"
+          currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} Emprestimos"
           selectionMode="multiple"
-          selection={selectedLivros}
-          onSelectionChange={(e) => setSelectedLivros(e.value)}
+          selection={selectedEmprestimos}
+          onSelectionChange={(e) => setSelectedEmprestimos(e.value)}
           header={renderHeader}
           filters={filters}
           className="m-y-2"
@@ -168,21 +184,19 @@ export function Tabelas() {
             selectionMode="multiple"
             headerStyle={{ width: "3rem" }}
           ></Column>
-          <Column field="nome" header="Nome"></Column>
-          <Column field="edicao" header="Edição"></Column>
-          <Column field="autor" header="Autor"></Column>
-          <Column field="ano" header="Ano"></Column>
+          <Column field="test1" header="Nome"></Column>
+          <Column field="fe" header="Edição"></Column>
         </DataTable>
       </div>
 
       <Dialog
-        visible={deleteLivrosDialog}
+        visible={deleteEmprestimosDialog}
         style={{ width: "32rem" }}
         breakpoints={{ "960px": "75vw", "641px": "90vw" }}
         header="Confirmar"
         modal
         footer={deleteProductsDialogFooter}
-        onHide={hideDeleteLivrosDialog}
+        onHide={hideDeleteEmprestimosDialog}
       >
         <div className="confirmation-content">
           <i
@@ -193,6 +207,8 @@ export function Tabelas() {
           <span>Tem certeza que deseja deletar os itens selecionado?</span>
         </div>
       </Dialog>
+      </BodyContainer>
+      <Footer />
     </>
   );
 }
