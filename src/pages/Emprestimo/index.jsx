@@ -13,13 +13,14 @@ import { Header } from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import { Footer } from "../../components/Footer";
 import { BodyContainer } from "../../GlobalStyled";
-import { deleteEmprestimosService, getEmprestimosService } from "../../services/emprestimoService";
-import { Navigate, useNavigate } from "react-router-dom";
+import { createEmprestimoService, deleteEmprestimosService, devolucaoEmprestimosService, getEmprestimosService } from "../../services/emprestimoService";
+import {  useNavigate } from "react-router-dom";
 
 export function Emprestimo() {
   const [emprestimos, setEmprestimos] = useState([{}]);
   const [selectedEmprestimos, setSelectedEmprestimos] = useState(null);
   const [deleteEmprestimosDialog, setDeleteEmprestimosDialog] = useState(false);
+  const [DevolucaoEmprestimosDialog,setDevolucaoEmprestimosDialog] = useState(false);
   const dt = useRef(null);
   const toast = useRef(null);
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export function Emprestimo() {
     try {
       const res = await getEmprestimosService();
       setEmprestimos(res.data);
+      console.log(emprestimos)
     } catch (err) {
       console.log(err);
     }
@@ -51,6 +53,9 @@ export function Emprestimo() {
   useEffect(() => {
     getEmprestimos();
   }, []);
+
+  
+
 
   const exportCSV = () => {
     dt.current.exportCSV();
@@ -64,6 +69,14 @@ export function Emprestimo() {
     setDeleteEmprestimosDialog(false);
   };
 
+  const confirmDevolucaoSelected = () => {
+    setDevolucaoEmprestimosDialog(true);
+  };
+
+  const hideDevolucaoEmprestimosDialog = () => {
+    setDevolucaoEmprestimosDialog(false);
+  };
+
   const deleteEmprestimos = () => {
     try {
       selectedEmprestimos.forEach(async (emprestimo) => {
@@ -71,7 +84,7 @@ export function Emprestimo() {
         toast.current.show({
           severity: "success",
           summary: "Sucesso",
-          detail: `${emprestimo.test1} Apagado`,
+          detail: `O emprestimo de ${emprestimo.livro.nome} para ${emprestimo.usuario.nome} foi Apagado`,
           life: 3000,
         });
       });
@@ -83,8 +96,29 @@ export function Emprestimo() {
     hideDeleteEmprestimosDialog();
   };
 
-const novoEmprestimo = ()=>{
-    navigate("/emprestimo/novo");
+  const devolucaoEmprestimos = () => {
+    try {
+      selectedEmprestimos.forEach(async (emprestimo) => {
+        await devolucaoEmprestimosService(emprestimo._id);
+        toast.current.show({
+          severity: "success",
+          summary: "Sucesso",
+          detail: `O emprestimo de ${emprestimo.livro.nome} para ${emprestimo.usuario.nome} foi Devolvido.`,
+          life: 3000,
+        });
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+    setSelectedEmprestimos(null);
+    getEmprestimos();
+    hideDevolucaoEmprestimosDialog();
+  };
+
+const novoEmprestimo = async ()=>{
+ await createEmprestimoService({livro:"655b7016bc44f73e17431219",CPF:"1234" });
+ getEmprestimos();
+    // navigate("/emprestimo/novo");
 }
 
   const deleteProductsDialogFooter = (
@@ -104,6 +138,23 @@ const novoEmprestimo = ()=>{
     </React.Fragment>
   );
 
+  const devolucaoEmprestimosDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="Não"
+        icon="pi pi-times"
+        outlined
+        onClick={hideDevolucaoEmprestimosDialog}
+      />
+      <Button
+        label="Sim"
+        icon="pi pi-check"
+        severity="danger"
+        onClick={devolucaoEmprestimos}
+      />
+    </React.Fragment>
+  );
+
   const leftToolbar = () => {
     return (
       <div className="flex flex-wrap gap-2">
@@ -112,6 +163,13 @@ const novoEmprestimo = ()=>{
           icon="pi pi-plus"
           severity="success"
           onClick={novoEmprestimo}
+        />
+        <Button
+          label="Devolução"
+          icon="pi pi-plus"
+          severity="secondary"
+          onClick={confirmDevolucaoSelected}
+          disabled={!selectedEmprestimos || !selectedEmprestimos.length}
         />
         <Button
           label="Deletar"
@@ -184,8 +242,11 @@ const novoEmprestimo = ()=>{
             selectionMode="multiple"
             headerStyle={{ width: "3rem" }}
           ></Column>
-          <Column field="test1" header="Nome"></Column>
-          <Column field="fe" header="Edição"></Column>
+          <Column field="usuario.nome" header="Nome"></Column>
+          <Column field="livro.nome" header="Livro"></Column>
+          <Column field="funcionario.nome" header="Funcionario"></Column>
+          <Column field="dataEmprestimo" header="Data do Emprestimo"></Column>
+          <Column field="dataDevolucao" header="Data de Devolução"></Column>
         </DataTable>
       </div>
 
@@ -205,6 +266,24 @@ const novoEmprestimo = ()=>{
           />
 
           <span>Tem certeza que deseja deletar os itens selecionado?</span>
+        </div>
+      </Dialog>
+      <Dialog
+        visible={DevolucaoEmprestimosDialog}
+        style={{ width: "32rem" }}
+        breakpoints={{ "960px": "75vw", "641px": "90vw" }}
+        header="Confirmar"
+        modal
+        footer={devolucaoEmprestimosDialogFooter}
+        onHide={hideDevolucaoEmprestimosDialog}
+      >
+        <div className="confirmation-content">
+          <i
+            className="pi pi-exclamation-triangle mr-3"
+            style={{ fontSize: "2rem" }}
+          />
+
+          <span>Tem certeza que deseja comfirmar a devolução dos itens selecionado?</span>
         </div>
       </Dialog>
       </BodyContainer>
