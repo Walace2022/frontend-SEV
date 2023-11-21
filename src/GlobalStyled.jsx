@@ -18,6 +18,10 @@ export const GlobalStyled = createGlobalStyle`
     height: 100vh;
     background-color: #c3daec;
   }
+
+  .m-y-2{
+    margin: 2rem 0;
+  }
 `;
 
 export const BodyContainer = styled.main`
