@@ -9,16 +9,19 @@ import {
   Form,
   FormButton,
   SelectInput,
+  SucessoMessage,
 } from "../Login/FormStyled";
 import { useForm } from "react-hook-form";
 import { getLivrosService } from "../../services/livrosService";
 import { getUsuariosService } from "../../services/usuarioService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmprestimoSchema } from "../../schemas/emprestimoSchema";
+import { createEmprestimoService } from "../../services/emprestimoService";
 
 export function NovoEmprestimo() {
   const [usuarios, setUsuarios] = useState(null);
   const [livros, setLivros] = useState(null);
+  const [sucesso, setSucesso] = useState("");
   const {
     register,
     handleSubmit,
@@ -40,14 +43,17 @@ export function NovoEmprestimo() {
     getUsuarios();
     getLivros();
   }, []);
-  const options = [
-    {
-      name: "ola",
-      value: "1",
-    },
-  ];
-  const emprestimo = (data) => {
+
+
+  const emprestimo = async (data) => {
     console.log(data);
+    try{
+      const res = await createEmprestimoService(data);
+      setSucesso(res.data.message)
+    }catch(err){
+      console.log(err.message)
+    }
+
   };
   return (
     <>
@@ -55,6 +61,8 @@ export function NovoEmprestimo() {
       <NavBar />
       <BodyContainer>
         <Form onSubmit={handleSubmit(emprestimo)}>
+        { sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
+
           <div>
             <label htmlFor="livro">Livros:</label>
             <SelectInput id="livro" {...register("livro")}>

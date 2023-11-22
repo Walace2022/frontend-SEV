@@ -14,7 +14,7 @@ import NavBar from "../../components/NavBar";
 import { Footer } from "../../components/Footer";
 import { BodyContainer } from "../../GlobalStyled";
 import {
-  createEmprestimoService,
+  
   deleteEmprestimosService,
   devolucaoEmprestimosService,
   getEmprestimosService,
@@ -128,11 +128,6 @@ export function Emprestimo() {
   };
 
   const novoEmprestimo = async () => {
-    // await createEmprestimoService({
-    //   livro: "655b7016bc44f73e17431219",
-    //   CPF: "1234",
-    // });
-    // getEmprestimos();
     navigate("/emprestimo/novo");
   };
 
