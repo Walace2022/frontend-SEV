@@ -11,3 +11,12 @@ export function cadUsuarioService(data) {
   });
   return response;
 }
+
+export function getUsuariosService() {
+  const response = axios.get(`${baseURL}/usuario`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}

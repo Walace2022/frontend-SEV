@@ -99,7 +99,14 @@ export function Tabelas() {
 
   const leftToolbar = () => {
     return (
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-2">
+        <Button
+          label="Atualizar"
+          icon="pi pi-plus"
+          severity="secondary"
+          onClick={confirmDeleteSelected}
+          disabled={!selectedLivros || !selectedLivros.length}
+        />
         <Button
           label="Deletar"
           icon="pi pi-trash"
