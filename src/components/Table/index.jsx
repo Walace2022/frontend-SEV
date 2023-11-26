@@ -18,6 +18,10 @@ import {
   getFuncionariosService,
 } from "../../services/funcionarioService";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  deleteUsuarioService,
+  getUsuariosService,
+} from "../../services/usuarioService";
 
 export function Tabelas() {
   const location = useLocation();
@@ -34,6 +38,11 @@ export function Tabelas() {
   const [selectedFuncionarios, setSelectedFuncionarios] = useState(null);
   const [deleteFuncionariosDialog, setDeleteFuncionariosDialog] =
     useState(false);
+
+  //Usuarios
+  const [usuarios, setUsuarios] = useState([{}]);
+  const [selectedUsuarios, setSelectedUsuarios] = useState(null);
+  const [deleteUsuariosDialog, setDeleteUsuariosDialog] = useState(false);
 
   const dt = useRef(null);
   const toast = useRef(null);
@@ -60,6 +69,7 @@ export function Tabelas() {
   useEffect(() => {
     getLivros();
     getFuncionarios();
+    getUsuarios();
   }, [location.key]);
 
   async function getLivros() {
@@ -80,6 +90,15 @@ export function Tabelas() {
     }
   }
 
+  async function getUsuarios() {
+    try {
+      const res = await getUsuariosService();
+      setUsuarios(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const confirmDeleteLivrosSelected = () => {
     setDeleteLivrosDialog(true);
   };
@@ -88,12 +107,20 @@ export function Tabelas() {
     setDeleteFuncionariosDialog(true);
   };
 
+  const confirmDeleteUsuariosSelected = () => {
+    setDeleteUsuariosDialog(true);
+  };
+
   const hideDeleteLivrosDialog = () => {
     setDeleteLivrosDialog(false);
   };
 
   const hideDeleteFuncionariosDialog = () => {
     setDeleteFuncionariosDialog(false);
+  };
+
+  const hideDeleteUsuariosDialog = () => {
+    setDeleteUsuariosDialog(false);
   };
 
   const deleteLivros = () => {
@@ -134,6 +161,25 @@ export function Tabelas() {
     }
   };
 
+  const deleteUsuarios = () => {
+    try {
+      selectedUsuarios.forEach(async (usuario) => {
+        await deleteUsuarioService(usuario._id);
+        toast.current.show({
+          severity: "success",
+          summary: "Sucesso",
+          detail: `${usuario.nome} Apagado`,
+          life: 3000,
+        });
+      });
+      setSelectedUsuarios(null);
+      hideDeleteUsuariosDialog();
+      navigate(location.pathname);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const deleteLivrosDialogFooter = (
     <React.Fragment>
       <Button
@@ -164,6 +210,23 @@ export function Tabelas() {
         icon="pi pi-check"
         severity="danger"
         onClick={deleteFuncionarios}
+      />
+    </React.Fragment>
+  );
+
+  const deleteUsuariosDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="Não"
+        icon="pi pi-times"
+        outlined
+        onClick={hideDeleteUsuariosDialog}
+      />
+      <Button
+        label="Sim"
+        icon="pi pi-check"
+        severity="danger"
+        onClick={deleteUsuarios}
       />
     </React.Fragment>
   );
@@ -212,6 +275,31 @@ export function Tabelas() {
           label="Usuarios"
           icon="pi "
           severity="secondary"
+          onClick={tabelaUsuario}
+        />
+      </div>
+    );
+  };
+
+  const usuariosTablesToolbar = () => {
+    return (
+      <div className="flex flex-wrap gap-2">
+        <Button
+          label="Livros"
+          icon="pi "
+          severity="secondary"
+          onClick={tabelaLivro}
+        />
+        <Button
+          label="Funcionarios"
+          icon="pi "
+          severity="secondary"
+          onClick={tabelaFuncionario}
+        />
+        <Button
+          label="Usuarios"
+          icon="pi "
+          severity="success"
           onClick={tabelaUsuario}
         />
       </div>
@@ -274,6 +362,31 @@ export function Tabelas() {
           severity="danger"
           onClick={confirmDeleteFuncionariosSelected}
           disabled={!selectedFuncionarios || !selectedFuncionarios.length}
+        />
+      </div>
+    );
+  };
+
+  const usuariosLeftToolbar = () => {
+    return (
+      <div className="flex flex-wrap gap-2">
+        <Button
+          label="Atualizar"
+          icon="pi pi-plus"
+          severity="secondary"
+          onClick={confirmDeleteUsuariosSelected}
+          disabled={
+            !selectedUsuarios ||
+            !selectedUsuarios.length ||
+            selectedUsuarios.length > 1
+          }
+        />
+        <Button
+          label="Deletar"
+          icon="pi pi-trash"
+          severity="danger"
+          onClick={confirmDeleteUsuariosSelected}
+          disabled={!selectedUsuarios || !selectedUsuarios.length}
         />
       </div>
     );
@@ -440,16 +553,16 @@ export function Tabelas() {
           <div className="card">
             <Toolbar
               className="mb-4 m-y-2"
-              start={livrosTablesToolbar}
+              start={usuariosTablesToolbar}
             ></Toolbar>
             <Toolbar
               className="mb-4 m-y-2"
-              start={livrosLeftToolbar}
+              start={usuariosLeftToolbar}
               end={rightToolbar}
             ></Toolbar>
             <DataTable
               ref={dt}
-              value={livros}
+              value={usuarios}
               dataKey="_id"
               size="large"
               tableStyle={{ minWidth: "50rem" }}
@@ -459,8 +572,8 @@ export function Tabelas() {
               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
               currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} Livros"
               selectionMode="multiple"
-              selection={selectedLivros}
-              onSelectionChange={(e) => setSelectedLivros(e.value)}
+              selection={selectedUsuarios}
+              onSelectionChange={(e) => setSelectedUsuarios(e.value)}
               header={renderHeader}
               filters={filters}
               className="m-y-2"
@@ -470,20 +583,20 @@ export function Tabelas() {
                 headerStyle={{ width: "3rem" }}
               ></Column>
               <Column field="nome" header="Nome"></Column>
-              <Column field="edicao" header="Edição"></Column>
-              <Column field="autor" header="Autor"></Column>
-              <Column field="ano" header="Ano"></Column>
+              <Column field="CPF" header="CPF"></Column>
+              <Column field="endereco" header="Endereço"></Column>
+              <Column field="telefone" header="Telefone"></Column>
             </DataTable>
           </div>
 
           <Dialog
-            visible={deleteLivrosDialog}
+            visible={deleteUsuariosDialog}
             style={{ width: "32rem" }}
             breakpoints={{ "960px": "75vw", "641px": "90vw" }}
             header="Confirmar"
             modal
-            footer={deleteLivrosDialogFooter}
-            onHide={hideDeleteLivrosDialog}
+            footer={deleteUsuariosDialogFooter}
+            onHide={hideDeleteUsuariosDialog}
           >
             <div className="confirmation-content">
               <i

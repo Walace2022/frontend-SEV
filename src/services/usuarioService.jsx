@@ -20,3 +20,12 @@ export function getUsuariosService() {
   });
   return response;
 }
+
+export function deleteUsuarioService(id) {
+  const response = axios.delete(`${baseURL}/usuario/${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}
