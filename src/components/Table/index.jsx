@@ -180,6 +180,14 @@ export function Tabelas() {
     }
   };
 
+  const updateUsuarios = () => {
+    navigate(`/atualiza/usuario/${selectedUsuarios[0]._id}`);
+  };
+
+  const updateLivros = () => {
+    navigate(`/atualiza/livro/${selectedLivros[0]._id}`);
+  };
+
   const deleteLivrosDialogFooter = (
     <React.Fragment>
       <Button
@@ -313,7 +321,7 @@ export function Tabelas() {
           label="Atualizar"
           icon="pi pi-plus"
           severity="secondary"
-          onClick={confirmDeleteLivrosSelected}
+          onClick={updateLivros}
           disabled={
             !selectedLivros ||
             !selectedLivros.length ||
@@ -346,17 +354,6 @@ export function Tabelas() {
     return (
       <div className="flex flex-wrap gap-2">
         <Button
-          label="Atualizar"
-          icon="pi pi-plus"
-          severity="secondary"
-          onClick={confirmDeleteFuncionariosSelected}
-          disabled={
-            !selectedFuncionarios ||
-            !selectedFuncionarios.length ||
-            selectedFuncionarios.length > 1
-          }
-        />
-        <Button
           label="Deletar"
           icon="pi pi-trash"
           severity="danger"
@@ -374,7 +371,7 @@ export function Tabelas() {
           label="Atualizar"
           icon="pi pi-plus"
           severity="secondary"
-          onClick={confirmDeleteUsuariosSelected}
+          onClick={updateUsuarios}
           disabled={
             !selectedUsuarios ||
             !selectedUsuarios.length ||

@@ -17,6 +17,7 @@ import { getUsuariosService } from "../../services/usuarioService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmprestimoSchema } from "../../schemas/emprestimoSchema";
 import { createEmprestimoService } from "../../services/emprestimoService";
+import { useNavigate } from "react-router-dom";
 
 export function NovoEmprestimo() {
   const [usuarios, setUsuarios] = useState(null);
@@ -27,6 +28,8 @@ export function NovoEmprestimo() {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(EmprestimoSchema) });
+
+  const navigate = useNavigate();
 
   const getUsuarios = async () => {
     const res = await getUsuariosService();
@@ -44,16 +47,15 @@ export function NovoEmprestimo() {
     getLivros();
   }, []);
 
-
   const emprestimo = async (data) => {
     console.log(data);
-    try{
+    try {
       const res = await createEmprestimoService(data);
-      setSucesso(res.data.message)
-    }catch(err){
-      console.log(err.message)
+      setSucesso(res.data.message);
+      setTimeout(() => navigate("/emprestimo"), 2000);
+    } catch (err) {
+      console.log(err.message);
     }
-
   };
   return (
     <>
@@ -61,7 +63,7 @@ export function NovoEmprestimo() {
       <NavBar />
       <BodyContainer>
         <Form onSubmit={handleSubmit(emprestimo)}>
-        { sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
+          {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
 
           <div>
             <label htmlFor="livro">Livros:</label>

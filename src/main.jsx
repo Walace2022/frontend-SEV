@@ -17,7 +17,9 @@ import { CadastroFuncionario } from "./pages/CadastroFuncionario";
 import { CadastroUsuario } from "./pages/CadastroUsuario";
 import { Consulta } from "./pages/Consulta";
 import { Emprestimo } from "./pages/Emprestimo";
-import {NovoEmprestimo} from "./pages/novoEmprestimo"
+import { NovoEmprestimo } from "./pages/novoEmprestimo";
+import { AtualizaLivro } from "./pages/AtualizaLivro";
+import { AtualizaUsuario } from "./pages/AtualizaUsuario";
 
 const router = createBrowserRouter([
   {
@@ -49,13 +51,21 @@ const router = createBrowserRouter([
     element: <Consulta />,
   },
   {
-    path:"/emprestimo",
-    element:<Emprestimo />
+    path: "/emprestimo",
+    element: <Emprestimo />,
   },
   {
-    path:"/emprestimo/novo",
-    element:<NovoEmprestimo />
-  }
+    path: "/emprestimo/novo",
+    element: <NovoEmprestimo />,
+  },
+  {
+    path: "/atualiza/livro/:id",
+    element: <AtualizaLivro />,
+  },
+  {
+    path: "/atualiza/usuario/:id",
+    element: <AtualizaUsuario />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
