@@ -29,3 +29,24 @@ export function deleteLivroService(id) {
   });
   return response;
 }
+
+export function updateLivroService(data, id) {
+  if (data.nome === "") {
+    delete data.nome;
+  }
+  if (data.edicao === "") {
+    delete data.edicao;
+  }
+  if (data.autor === "") {
+    delete data.autor;
+  }
+  if (data.ano === "") {
+    delete data.ano;
+  }
+  const response = axios.patch(`${baseURL}/livro/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}

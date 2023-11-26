@@ -29,3 +29,21 @@ export function deleteUsuarioService(id) {
   });
   return response;
 }
+
+export function updateUsuarioService(data, id) {
+  if (data.nome === "") {
+    delete data.nome;
+  }
+  if (data.endereco === "") {
+    delete data.endereco;
+  }
+  if (data.telefone === "") {
+    delete data.telefone;
+  }
+  const response = axios.patch(`${baseURL}/usuario/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}

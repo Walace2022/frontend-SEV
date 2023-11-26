@@ -1,5 +1,7 @@
-import { cadLivroService } from "../../services/livrosService";
-import { LivroSchema } from "../../schemas/LivroSchema";
+import {
+  cadLivroService,
+  updateLivroService,
+} from "../../services/livrosService";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +16,8 @@ import {
 } from "../Login/FormStyled";
 import { Input } from "../../components/Input";
 import NavBar from "../../components/NavBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { AtualizaLivroSchema } from "../../schemas/atualizaLivroSchema";
 
 export function AtualizaLivro() {
   const [error, setError] = useState("");
@@ -24,17 +27,22 @@ export function AtualizaLivro() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(LivroSchema) });
+  } = useForm({ resolver: zodResolver(AtualizaLivroSchema) });
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
-  async function cadLivro(data) {
+  async function updateLivro(data) {
     try {
-      const response = await cadLivroService(data);
+      const response = await updateLivroService(data, id);
       setSucesso(response.data.message);
+      setError(null);
       reset();
+      setTimeout(() => navigate("/consulta"), 2000);
     } catch (err) {
       setError(err.response.data.message);
+      setSucesso(null);
     }
   }
   return (
@@ -43,7 +51,7 @@ export function AtualizaLivro() {
       <NavBar />
 
       <BodyContainer>
-        <Form onSubmit={handleSubmit(cadLivro)}>
+        <Form onSubmit={handleSubmit(updateLivro)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
           {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>

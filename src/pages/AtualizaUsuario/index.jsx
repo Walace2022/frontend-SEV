@@ -12,9 +12,9 @@ import {
 } from "../Login/FormStyled";
 import { Input } from "../../components/Input";
 import NavBar from "../../components/NavBar";
-import { UsuarioSchema } from "../../schemas/UsuarioSchema";
-import { cadUsuarioService } from "../../services/usuarioService";
-import { useParams } from "react-router-dom";
+import { updateUsuarioService } from "../../services/usuarioService";
+import { useNavigate, useParams } from "react-router-dom";
+import { AtualizaUsuarioSchema } from "../../schemas/atualizaUsuarioSchema";
 
 export function AtualizaUsuario() {
   const [error, setError] = useState("");
@@ -24,15 +24,17 @@ export function AtualizaUsuario() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(UsuarioSchema) });
+  } = useForm({ resolver: zodResolver(AtualizaUsuarioSchema) });
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
-  async function cadUsuario(data) {
+  async function updateUsuario(data) {
     try {
-      const response = await cadUsuarioService(data);
+      const response = await updateUsuarioService(data, id);
       setSucesso(response.data.message);
       setError(null);
+      setTimeout(() => navigate("/consulta"), 2000);
       reset();
     } catch (err) {
       setError(err.response.data.message);
@@ -45,7 +47,7 @@ export function AtualizaUsuario() {
       <NavBar />
 
       <BodyContainer>
-        <Form onSubmit={handleSubmit(cadUsuario)}>
+        <Form onSubmit={handleSubmit(updateUsuario)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
           {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>
@@ -57,16 +59,6 @@ export function AtualizaUsuario() {
               register={register}
             />
             {errors.nome && <ErrorMessage>{errors.nome.message}</ErrorMessage>}
-          </div>
-          <div>
-            <label htmlFor="CPF">CPF:</label>
-            <Input
-              type="text"
-              placeholder="Digite o CPF do usuario"
-              name="CPF"
-              register={register}
-            />
-            {errors.CPF && <ErrorMessage>{errors.CPF.message}</ErrorMessage>}
           </div>
           <div>
             <label htmlFor="endereco">Endereço:</label>
