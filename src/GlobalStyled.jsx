@@ -20,7 +20,7 @@ export const GlobalStyled = createGlobalStyle`
   }
 
   .m-y-2{
-    margin: 2rem 0;
+    margin: .5rem 0;
   }
 `;
 

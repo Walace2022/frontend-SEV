@@ -21,3 +21,21 @@ export function cadFuncionarioService(data) {
   });
   return response;
 }
+
+export function getFuncionariosService() {
+  const response = axios.get(`${baseURL}/funcionario`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}
+
+export function deleteFuncionariosService(id) {
+  const response = axios.delete(`${baseURL}/funcionario/${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+  });
+  return response;
+}
