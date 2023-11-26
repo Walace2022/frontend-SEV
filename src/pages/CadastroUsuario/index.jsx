@@ -29,9 +29,11 @@ export function CadastroUsuario() {
     try {
       const response = await cadUsuarioService(data);
       setSucesso(response.data.message);
+      setError(null);
       reset();
     } catch (err) {
       setError(err.response.data.message);
+      setSucesso(null);
     }
   }
   return (
@@ -42,7 +44,7 @@ export function CadastroUsuario() {
       <BodyContainer>
         <Form onSubmit={handleSubmit(cadUsuario)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          {!error && sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
+          {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>
             <label htmlFor="nome">Nome:</label>
             <Input

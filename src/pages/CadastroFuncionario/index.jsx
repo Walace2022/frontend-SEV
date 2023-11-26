@@ -29,9 +29,11 @@ export function CadastroFuncionario() {
     try {
       const response = await cadFuncionarioService(data);
       setSucesso(response.data.message);
+      setError(null);
       reset();
     } catch (err) {
       setError(err.response.data.message);
+      setSucesso(null);
     }
   }
   return (
@@ -42,7 +44,7 @@ export function CadastroFuncionario() {
       <BodyContainer>
         <Form onSubmit={handleSubmit(cadFuncionario)}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          {!error && sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
+          {sucesso && <SucessoMessage>{sucesso}</SucessoMessage>}
           <div>
             <label htmlFor="nome">Nome:</label>
             <Input
