@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "http://localhost:3000";
+const baseURL = "https://api-sev.onrender.com";
 
 export function cadUsuarioService(data) {
   const response = axios.post(`${baseURL}/usuario`, data, {

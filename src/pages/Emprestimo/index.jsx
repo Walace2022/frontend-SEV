@@ -14,7 +14,6 @@ import NavBar from "../../components/NavBar";
 import { Footer } from "../../components/Footer";
 import { BodyContainer } from "../../GlobalStyled";
 import {
-  
   deleteEmprestimosService,
   devolucaoEmprestimosService,
   getEmprestimosService,
